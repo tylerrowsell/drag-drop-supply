@@ -59,9 +59,12 @@
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
-
-  <header class="site-header" role="banner">
-    <div class="wrapper">
+  <header class="site-header" role="banner" id="site_head_box">
+    <div class="wrapper" id="header-box" style="height:90px">
+    <div class="wrapper" id="header-wrap-message" style="display:none">
+      <h1><span id="header_message_box" style="margin:auto;"></span></h1>
+    </div>
+    <div class="wrapper" id="header-wrap">
 
       <div class="grid--full">
         <div class="grid-item large--one-half">
@@ -111,14 +114,15 @@
           {% endif %}
 
           {% include 'search-bar' %}
+        
 
           <a href="/cart" class="header-cart-btn cart-toggle">
             <span class="icon icon-cart"></span>
-            {{ 'layout.cart.cart' | t }} <span class="cart-count cart-badge--desktop {% if cart.item_count == 0 %}hidden-count{% endif %}">{{ cart.item_count }}</span>
+            {{ 'layout.cart.cart' | t }} <span id="cart_span" class="cart-count cart-badge--desktop ">{{ cart.item_count }}</span>
           </a>
         </div>
       </div>
-
+      </div>
     </div>
   </header>
 
