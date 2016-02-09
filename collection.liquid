@@ -7,11 +7,79 @@
   {% assign has_sidebar = true %}
 {% endif %}
 
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+ 
+<script type="text/javascript">
+ 
+$( init );
+ 
+function init() {
+  $('.product-grid-image').draggable({
+    revert: true,
+    cursor: 'move'
+  });
+  $('.site-header').droppable( {
+    drop: handleDropEvent,
+    over: handleOverEvent,
+    out:  handleOutEvent
+  } );
+}
+function handleOverEvent( event, ui ) {
+  $('#site_head_box').css('background-color', '#d3d3d3');
+}
+function handleOutEvent( event, ui ) {
+  $('#site_head_box').css('background-color', '#ffffff');
+}
+    
+function handleDropEvent( event, ui ) {
+  var draggable = ui.draggable; 
+  jQuery.post('/cart/add.js', {
+  quantity: 1,
+  id: draggable.attr('id')
+});
+  $('#header-wrap').hide();
+  $('#header-wrap-message').show("slow");
+  
+  jQuery("#header_message_box").text('Item Added to Cart!');
+  $('#header-wrap')
+  .delay(3000)
+  .queue(function (next) { 
+    $(this).show("slow"); 
+    next(); 
+  });
+  $('#header-wrap-message')
+  .delay(3000)
+  .queue(function (next) { 
+    $(this).hide(); 
+    next(); 
+  });
+    
+  
+
+
+jQuery.getJSON('/cart.js', function (cart, textStatus) {
+  var carttext=cart.item_count;
+  jQuery("#cart_span").text(carttext);
+});
+$('#site_head_box').css('background-color', '#ffffff');
+}
+
+ 
+</script>
+
+
 <div class="grid grid-border">
+  <p style="text-align:right;">Drag and Drop Items to top of page to add to cart!</p>
 
   {% if has_sidebar %}
   <aside class="sidebar grid-item large--one-fifth collection-filters" id="collectionFilters">
     {% include 'collection-sidebar' %}
+    
   </aside>
   {% endif %}
 
@@ -44,7 +112,9 @@
         {% include 'toggle-filters' %}
       </div>
     </header>
+    
     {% endif %}
+    
 
     <div class="grid-uniform">
 
