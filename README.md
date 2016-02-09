@@ -1,2 +1,2 @@
 # shopify
-Doing some development on shopify!
+Doing some development on shopify supply theme.
