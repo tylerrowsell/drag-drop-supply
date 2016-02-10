@@ -63,7 +63,14 @@
     <div class="wrapper" id="header-box" style="height:90px">
     <div class="wrapper" id="header-wrap-message" style="display:none">
       <h1><span id="header_message_box" style="margin:auto;"></span></h1>
+      <p><span id="header_message_box_sub" style="margin:auto;"></span></p>
     </div>
+      <div class="wrapper" id="header-wrap-option" style="display:none">
+        <p>We have some options for that item!</p>
+      <select id="variant_select" onchange="variant_select_click()">
+        </select>
+        <button id="cancel" onclick="cancel_variant_select()">Cancel</button>
+      </div>
     <div class="wrapper" id="header-wrap">
 
       <div class="grid--full">
