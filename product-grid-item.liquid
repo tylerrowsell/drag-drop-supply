@@ -24,12 +24,12 @@
 <div class="grid-item {{ grid_item_width }}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
 
   <a href="{{ product.url | within: current_collection }}" class="product-grid-item">
-    <div class="product-grid-image" id="{{product.first_available_variant.id}}">
+    <div class="product-grid-image" id="{{product.handle}}">
       <div class="product-grid-image--centered">
         {% if sold_out %}
           <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
         {% endif %}
-        <img src="{{ product.featured_image.src | img_url: image_size }}" alt="{{ product.featured_image.alt | escape }}">
+        <img  src="{{ product.featured_image.src | img_url: image_size }}" alt="{{ product.featured_image.alt | escape }}">
       </div>
     </div>
 
