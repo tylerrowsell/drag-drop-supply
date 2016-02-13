@@ -22,9 +22,9 @@
 {% assign image_size = settings.collection_prod_image_sizes %}
 
 <div class="grid-item {{ grid_item_width }}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
-
+<div  id="{{product.handle}}" class="dragme" >
   <a href="{{ product.url | within: current_collection }}" class="product-grid-item">
-    <div class="product-grid-image" id="{{product.handle}}">
+    <div class="product-grid-image">
       <div class="product-grid-image--centered">
         {% if sold_out %}
           <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
@@ -56,5 +56,5 @@
       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
     {% endif %}
   </a>
-
+  </div>
 </div>
