@@ -128,7 +128,7 @@
 
           <a href="/cart" class="header-cart-btn cart-toggle">
             <span class="icon icon-cart"></span>
-            {{ 'layout.cart.cart' | t }} <span id="cart_span" class="cart-count cart-badge--desktop ">{{ cart.item_count }}</span>
+                  {{ 'layout.cart.cart' | t }} <span id="cart_span" class="cart-count cart-badge--desktop {% if cart.item_count == 0 %}hidden-count{% endif %}">{{ cart.item_count }}</span>
           </a>
         </div>
       </div>
