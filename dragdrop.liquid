@@ -146,6 +146,8 @@ function addtocart(passed_id){
    jQuery.getJSON('/cart.js', function (cart, textStatus) { 
    var carttext=cart.item_count; 
    jQuery("#cart_span").text(carttext); 
+     $("#cart_span").removeClass();
+     $("#cart_span").addClass("cart-count cart-badge--desktop");
      
  }); 
 
