@@ -1,0 +1,155 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>  
+
+<script type="text/javascript">
+ 
+$( init );
+  var state = 'no';
+
+ 
+function init() {
+  $('.dragme').draggable({
+    revert: true,
+    cursor: 'move',
+    start: function( event, ui ) {
+      //$('#header-box').animate({height: '300px' }, 250);
+      $("#header_message_box").html("Drag here to add to cart!");
+      $("#header_message_box_sub").text("");
+      $('#header-wrap').hide();
+  $('#header-wrap-option').hide();
+  $('#header-wrap-message').show("slow");
+  },
+    stop: function( event, ui ) {
+      if(state =='cart'){
+        
+       $('#header-wrap').hide();
+  $('#header-wrap-message').hide();
+      } else if(state == 'no'){
+      $('#header-wrap').show();
+  $('#header-wrap-message').hide();
+      }
+      else{
+       
+      }
+  },
+  });
+  
+  $('#header-box').droppable( {
+    drop: handleDropEvent,
+    over: handleOverEvent,
+    out:  handleOutEvent
+  } );
+}
+function handleOverEvent( event, ui ) {
+  $('#site_head_box').css('background-color', '#d3d3d3');
+}
+function handleOutEvent( event, ui ) {
+  $('#site_head_box').css('background-color', '#ffffff');
+      //$('#header-box').animate({height: '90px' }, 250);
+       $('#header-wrap').show();
+  $('#header-wrap-message').hide();
+  
+}
+  
+function handleDropEvent( event, ui ) {
+  state = 'cart';
+ // $('#header-box').animate({height: '90px' }, 250);
+    $('#header-wrap-message').hide();
+  $('#header-wrap').hide();
+  var draggable = ui.draggable; 
+  var id = '/products/' + draggable.attr('id') + '.js';
+  
+  $.getJSON(id, function(product, textStatus){
+  var variants = product.variants;
+  var item_id;
+    if(variants.length > 1){
+      var select_string = "<option></option>"
+      for(i = 0; i < variants.length; i++){
+      select_string += "<option value='"+variants[i].id+"'>"+variants[i].title+"</option>";
+      }
+      $("#variant_select").html(select_string);
+      $('#site_head_box').css('background-color', '#ffffff');
+  $('#header-wrap').hide();
+  $('#header-wrap-option').show("slow");
+ $("#header_message_box").html(product.title + " was added to your cart!");
+      $('#header-wrap').hide();
+    }else{
+      $("#header_message_box").html(product.title + " was added to your cart!");
+      $("#header_message_box_sub").text("");
+      addtocart(variants[0].id);
+      state="add";
+    }
+  });
+};
+  
+  function variant_select_click(){
+    var variant_id = $('#variant_select').val();
+    var Select_Text = $("#variant_select option:selected").text();
+    $("#header_message_box_sub").text("Option Selected: " + Select_Text);
+    if(variant_id != ""){
+      addtocart(variant_id);
+    }
+    
+  }
+  function cancel_variant_select(){
+     
+  $('#header-wrap-option').hide("500");
+  $('#header-wrap-message').hide();
+    state = 'no';
+  $('#header-wrap')
+  .delay(500)
+  .queue(function (next) { 
+    $(this).show(); 
+    next(); 
+  });
+  }
+ 
+function addtocart(passed_id){
+ $.ajax({
+  type: "POST",
+  url: '/cart/add.js',
+  data: {
+    quantity: 1,
+     id: passed_id},
+    error: function(data, textstatus) {
+            var parseddata = JSON.parse(data.responseText);
+      		$('#header_message_box').html(parseddata.message);
+            $('#header_message_box_sub').text(parseddata.description);
+    },
+
+});
+  
+  
+  
+  $.getJSON('/cart.js', function (cart, textStatus) {
+  var carttext=cart.item_count;
+  $("#cart_span").text(carttext);
+});
+  $('#site_head_box').css('background-color', '#ffffff');
+  $('#header-wrap').hide();
+  $('#header-wrap-option').hide();
+  $('#header-wrap-message').show("slow");
+  
+ 
+  $('#header-wrap-message')
+  .delay(2500)
+  .queue(function (next) { 
+    $(this).hide(500); 
+    next(); 
+  });
+   $('#header-wrap')
+  .delay(3300)
+  .queue(function (next) { 
+    $(this).show(); 
+     state = 'no';
+    next(); 
+  });
+   jQuery.getJSON('/cart.js', function (cart, textStatus) { 
+   var carttext=cart.item_count; 
+   jQuery("#cart_span").text(carttext); 
+     $("#cart_span").removeClass();
+     $("#cart_span").addClass("cart-count cart-badge--desktop");
+     
+ }); 
+
+  }; 
+</script>
