@@ -1,4 +1,4 @@
-# shopify
+# Drag Drop Cart
 Doing some development on shopify!
 
 Modifying the Supply Theme to include a drag and drop cart.
@@ -16,3 +16,4 @@ It is also important to add the snippet
 dragdrop.liquid
 
 There is no need to update the collection.liquid file.
+
